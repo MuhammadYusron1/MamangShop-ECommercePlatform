@@ -462,23 +462,27 @@ This section tells you **what* to search so you can deepen your understanding. E
 
 ## 11. Screenshots
 
-> ⬇️ **Screenshots go here** — capture them after `podman compose up`:
->
-> ### 🏠 Home Page
-> <!-- SCREENSHOT: browser at http://localhost:3000 → the hero banner + product grid -->
->
-> ### 🛒 Cart Page
-> <!-- SCREENSHOT: add a few items, visit http://localhost:3000/cart -->
->
-> ### 🧾 Checkout / Stripe
-> <!-- SCREENSHOT: http://localhost:3000/checkout after login -->
-> <!-- SCREENSHOT: the Stripe-hosted payment page (test card 4242 4242 4242 4242) -->
->
-> ### 📦 Order History
-> <!-- SCREENSHOT: after a successful (fake) payment → http://localhost:3000/orders -->
->
-> ### 🌙 Dark Mode
-> <!-- SCREENSHOT: toggle the moon icon → same pages in dark theme -->
+> 📸 **How to add them (I can't capture them headlessly — please save these into
+> `docs/screenshots/` and run `git add docs/screenshots && git commit && git push`,**
+> or drop them and ask me to embed them next session):
+
+### 🏠 Home Page
+<!-- SCREENSHOT: browser at http://localhost:3000 → save as docs/screenshots/home.png (hero banner + product grid) -->
+
+### 🛒 Cart Page
+<!-- SCREENSHOT: add a few items, visit http://localhost:3000/cart → save as docs/screenshots/cart.png -->
+
+### 🧾 Checkout / Stripe
+<!-- SCREENSHOT: http://localhost:3000/checkout after login → save as docs/screenshots/checkout.png -->
+<!-- SCREENSHOT: the Stripe hosted page with test card 4242... → save as docs/screenshots/stripe.png -->
+
+### 📦 Order History
+<!-- SCREENSHOT: after a successful (fake) payment → http://localhost:3000/orders → save as docs/screenshots/orders.png -->
+
+### 🌙 Dark Mode
+<!-- SCREENSHOT: toggle the moon icon on any page → save as docs/screenshots/dark.png -->
+
+Full capture checklist: [docs/screenshots/README.md](docs/screenshots/README.md)
 
 ---
 
