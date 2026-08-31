@@ -25,18 +25,23 @@ cd MamangShop-ECommercePlatform
 ```
 
 ### Step 2 — Configure secrets
-```bash
-cp server/.env.example server/.env
-nano server/.env   # (or any editor)
-```
-Set your **real Stripe test keys**:
-```env
-STRIPE_SECRET_KEY=sk_test_...
-STRIPE_WEBHOOK_SECRET=whsec_...
-```
+Two gitignored files hold secrets:
+
+1. **`server/.env`** — used if you run the backend outside containers (dev/hot-reload):
+   ```bash
+   cp server/.env.example server/.env
+   ```
+2. **Root `.env`** — used by `podman compose` for interpolation (`${STRIPE_SECRET_KEY}`):
+   ```bash
+   cp .env.example .env   # then put your real STRIPE_SECRET_KEY in it
+   ```
+   Provide the correct `.env.example` and your real key:
+   ```env
+   STRIPE_SECRET_KEY=sk_test_...
+   STRIPE_WEBHOOK_SECRET=whsec_...
+   ```
 > Get test keys: https://dashboard.stripe.com/test/apikeys
-> The committed files contain only a PLACEHOLDER (`sk_test_REPLACE_WITH_YOUR...`);
-> supply your own key in `server/.env` for checkout to work. Never commit real keys.
+> Committed files contain only placeholders; supply your own key for checkout to work. Never commit real keys.
 
 ### Step 3 — Build & start all containers
 ```bash

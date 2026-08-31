@@ -52,11 +52,15 @@ cd MamangShop-ECommercePlatform
 
 ### 2. Configure secrets (one time)
 ```bash
-cp server/.env.example server/.env
-# Then edit server/.env and put in your REAL Stripe test keys:
+# For the containerized server (podman compose reads this via ${VAR}):
+cp .env.example .env
+# Then put your REAL Stripe test keys in .env:
 #   STRIPE_SECRET_KEY=sk_test_...
 #   STRIPE_WEBHOOK_SECRET=whsec_...
 # Get them free at https://dashboard.stripe.com/test/apikeys
+
+# If you run the backend outside containers (dev mode), also:
+#   cp server/.env.example server/.env
 ```
 
 ### 3. Build & start the whole stack

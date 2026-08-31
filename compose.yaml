@@ -63,9 +63,9 @@ services:
       JWT_SECRET: mamangshop_prod_secret_change_in_real_prod
       JWT_EXPIRES_IN: 7d
       # STRIPE keys — SECURITY: never hardcode real keys here.
-      # Provide via server/.env or a secrets manager. The placeholder
-      # below is intentional and must be replaced for checkout to work.
-      STRIPE_SECRET_KEY: "sk_test_REPLACE_WITH_YOUR_STRIPE_SECRET_KEY"
+      # Uses ${STRIPE_SECRET_KEY} which podman compose reads from the
+      # gitignored root .env file. See .env (root) and server/.env.example.
+      STRIPE_SECRET_KEY: "${STRIPE_SECRET_KEY:-}"
       STRIPE_WEBHOOK_SECRET: ""
       CLIENT_URL: http://localhost:3000
     ports:
