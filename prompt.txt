@@ -1,0 +1,18 @@
+E-Commerce Platform : Mamang Shop
+A user browses products, adds items to a shopping cart, registers an account, and securely checks out. The app verifies inventory in real-time, calculates totals, and creates an order history.
+Tools used :
+
+* React & TailwindCSS: Acts as the virtual storefront. It updates the webpage instantly when a user clicks "Add to Cart" without reloading the whole page.
+* Redux Toolkit: Functions like a central storage locker in the browser. It keeps track of the cart items so that when a user moves from the homepage to the checkout page, the items stay in the cart.
+* Node.js & Express: The brain of the server. Node.js listens for incoming user requests (like "view product #5"), and Express routes that request to the correct piece of code to fetch that product.
+* MongoDB & Mongoose: MongoDB is a database that saves data as flexible documents (similar to JSON files). Mongoose acts as a strict manager, ensuring that any new product or user data saved matches a specific required format.
+* Stripe API: An external, secure payment bridge. Instead of your app handling sensitive credit card numbers directly, Stripe securely collects the payment info, processes the transaction, and sends back a success confirmation code to your server.
+
+Push this project to my github repo given, write beautiful readme contains detailed information needed like step by step (comprehensive one), architecture, system design, API, features, screenshot of important things, Skills involved and responsibilities, underlying important theories each section or phase so I can search on Gemini by myself, etc
+https://github.com/MuhammadYusron1/MamangShop-ECommercePlatform.git
+
+You can use other Matt Pocock's skills (AIhero.dev) installed in this dir or install another skills in this dir if needed
+
+I want this project to be continued for next sessions so I dont prompt new one, write logs per jobs taken in markdown. write other markdown too if needed to store various project information detailed. Treat this project as a source of learningful information. You are senior dev Im junior dev
+
+My learning ability depends on your capability of writing good readme files on my github, so dont miss any things.

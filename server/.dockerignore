@@ -1,0 +1,9 @@
+# .dockerignore — server build context exclusions
+# These files/folders are NOT copied into the Docker build context,
+# which keeps the build fast and keeps secrets OUT of images.
+
+node_modules
+npm-debug.log
+.env
+.env.local
+dist

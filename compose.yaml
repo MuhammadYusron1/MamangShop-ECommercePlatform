@@ -1,0 +1,88 @@
+# ============================================================
+#  compose.yaml — Mamang Shop podman compose configuration
+#  ============================================================
+#  This file defines three services that run as containers:
+#
+#    mongo  : MongoDB database (stores all app data)
+#    server : Express/Node API server (backend logic)
+#    client : nginx serving the React app (frontend UI)
+#
+#  LEARNING NOTE — podman compose:
+#  podman compose reads this YAML and builds/runs all services.
+#  Containers on the SAME network can reach each other by service
+#  name (e.g. server reaches mongo at "mongodb://mongo:27017/...",
+#  nginx proxies /api to "http://server:5000/api/").
+#
+#  Start:   podman compose up --build
+#  Stop:    podman compose down
+#  Rebuild: podman compose up --build (force rebuilds images)
+#
+#  FIRST TIME SETUP (required once for MongoDB):
+#  After the stack is running, seed the database with sample data:
+#    podman compose exec server node src/seed.js
+#  Or run directly:
+#    podman compose up -d mongo && sleep 3 && podman compose run --rm server node src/seed.js
+# ============================================================
+
+services:
+  # ---------- MongoDB Database ----------
+  mongo:
+    image: mongo:7                          # Official MongoDB 7 image
+    restart: unless-stopped                 # auto-restart on crash or reboot
+    volumes:
+      # Named volume: data persists even if the container is destroyed.
+      # The data lives inside podman and survives `podman compose down`.
+      - mongo-data:/data/db
+    ports:
+      # Expose to the host (laptop) so you can connect with tools
+      # like MongoDB Compass or mongosh if needed. Format is HOST:CONTAINER.
+      - "27017:27017"
+    healthcheck:
+      # Simple health check: runs mongosh (MongoDB shell) and exits if OK.
+      # This lets podman know when the DB is actually ready to accept
+      # connections (not just "the container is up").
+      test: echo "db.runCommand('ping').ok" | mongosh --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ---------- Express API Server ----------
+  server:
+    build: ./server                         # build from server/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy         # wait for mongo to be healthy first
+    environment:
+      # Inline env vars here (override the .env file).
+      # Under podman compose, the hostname "mongo" resolves to the
+      # mongo container's IP — this is how containers talk.
+      PORT: "5000"
+      NODE_ENV: production
+      MONGO_URI: mongodb://mongo:27017/mamangshop
+      JWT_SECRET: mamangshop_prod_secret_change_in_real_prod
+      JWT_EXPIRES_IN: 7d
+      # STRIPE keys — SECURITY: never hardcode real keys here.
+      # Provide via server/.env or a secrets manager. The placeholder
+      # below is intentional and must be replaced for checkout to work.
+      STRIPE_SECRET_KEY: "sk_test_REPLACE_WITH_YOUR_STRIPE_SECRET_KEY"
+      STRIPE_WEBHOOK_SECRET: ""
+      CLIENT_URL: http://localhost:3000
+    ports:
+      # Expose port 5000 on the host for direct API access / Stripe webhook testing.
+      - "5000:5000"
+
+  # ---------- React Frontend (nginx) ----------
+  client:
+    build: ./client                         # build from client/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - server                              # nginx proxies /api to server
+    ports:
+      # The main entry point: browse http://localhost:3000 in your browser.
+      - "3000:80"
+
+# ---------- Volumes ----------
+# Named volumes persist data across container rebuilds.
+volumes:
+  mongo-data:

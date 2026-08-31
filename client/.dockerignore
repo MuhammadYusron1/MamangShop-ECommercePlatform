@@ -1,0 +1,9 @@
+# .dockerignore — client build context exclusions
+# Keeps the build context small and avoids copying node_modules
+# (which are re-installed inside the container) or .env files.
+
+node_modules
+dist
+.env
+.env.local
+npm-debug.log

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!-- ============================================================
+  client/index.html — the HTML shell for our React app
+  ============================================================
+  Vite uses this as the entry template. The real UI is rendered by
+  React into the <div id="root">. The <script type="module"> tag
+  loads our main.jsx, which boots everything.
+  We add a class-stopper script that reads the theme from
+  localStorage to avoid a "flash of wrong theme" on page load.
+============================================================ -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mamang Shop — E-Commerce</title>
+    <!-- Inline script: set the dark class BEFORE React renders so the
+         page doesn't flash the wrong theme. Runs synchronously. -->
+    <script>
+      (function () {
+        var theme = localStorage.getItem('theme');
+        if (
+          theme === 'dark' ||
+          (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)
+        ) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <!-- React mounts our whole application here -->
+    <div id="root"></div>
+
+    <!-- Load the entry JavaScript module -->
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
