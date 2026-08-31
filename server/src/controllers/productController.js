@@ -12,13 +12,27 @@
 import Product from '../models/Product.js';
 
 // ---- GET /api/products ----
-// Query param: ?category=Electronics (optional) to filter.
+// Query params (all optional, combinable):
+//   ?category=Electronics   → filter by exact category
+//   ?search=headphone       → case-insensitive text match on name/description
 export const getProducts = async (req, res) => {
   try {
-    // Build a filter object. If a category was provided, add it.
+    // Build a filter object from the query params.
     const filter = {};
+
+    // Category filter: exact match on the category field.
     if (req.query.category) {
       filter.category = req.query.category;
+    }
+
+    // Search filter: match ANY of these fields, case-insensitively,
+    // as a substring. We use a regex so "hea" matches "Headphones".
+    // $or lets us search multiple fields at once.
+    if (req.query.search) {
+      filter.$or = [
+        { name: { $regex: req.query.search, $options: 'i' } },
+        { description: { $regex: req.query.search, $options: 'i' } },
+      ];
     }
 
     // Find all products matching the filter, sorted newest first.

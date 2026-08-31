@@ -124,9 +124,10 @@ podman compose down
 
 | Feature | Where | How it works |
 |---------|-------|--------------|
-| 🗂️ **Browse products** | `HomePage` → `api` → `getProducts` | Loads all products from the API; category filter chips |
+| 🗂️ **Browse products** | `HomePage` → `api` → `getProducts` | Loads products from the API; category filter chips across 12 categories |
+| 🔎 **Search** | `HomePage` search box → `productController` `$or` regex | Case-insensitive substring match on name & description, combinable with category |
 | 🔍 **Product detail** | `ProductPage` | Fetches one product by URL id; qty selector + add to cart |
-| 🛒 **Persistent cart** | Redux `cartSlice` + `redux-persist` | Cart saved to `localStorage`, survives refresh & page changes |
+| 🛒 **Persistent cart** | Redux `cartSlice` + `store.js` subscription | Cart saved to `localStorage`, survives refresh & page changes |
 | 👤 **Register / Login** | `RegisterPage`, `LoginPage` → `authController` | JWT returned, stored, auto-attached to API requests |
 | 💳 **Secure checkout** | `CheckoutPage` → `checkoutController` | Stripe hosted Checkout — **card never touches our server** |
 | 📦 **Real-time inventory** | `orderController`, `checkoutController` | Server re-verifies stock against Mongo before every order |
@@ -156,7 +157,7 @@ MamangShop-ECommercePlatform/
 ├── client/                        # 🖥️ Frontend (React SPA served by nginx)
 │   ├── src/
 │   │   ├── app/
-│   │   │   ├── store.js           # Redux store + redux-persist setup
+│   │   │   ├── store.js           # Redux store + manual localStorage persistence
 │   │   │   ├── cartSlice.js       # shopping cart state + actions
 │   │   │   └── userSlice.js       # auth (JWT + user) state + actions
 │   │   ├── components/
@@ -446,7 +447,7 @@ This section tells you **what* to search so you can deepen your understanding. E
 |---------------|----------------------|
 | **React** | "React components props and state", "React hooks useState useEffect", "React StrictMode", "virtual DOM and re-rendering" |
 | **Routing** | "React Router v6 Routes Route useParams useNavigate", "client-side routing vs server-side routing" |
-| **State/Redux** | "Redux Toolkit createSlice reducers actions", "Immer immutable updates", "redux-persist localStorage", "selectors" |
+| **State/Redux** | "Redux Toolkit createSlice reducers actions", "Immer immutable updates", "localStorage persistence via preloadedState + store.subscribe", "selectors" |
 | **Styling** | "Tailwind CSS utility classes dark mode", "Tailwind @apply directive", "class vs media dark mode strategy" |
 | **Node/Express** | "Express middleware pipeline next()", "Express error handling middleware", "REST API design HTTP methods" |
 | **Database** | "MongoDB documents vs SQL rows", "Mongoose schema ODM", "database seed scripts", "denormalization snapshot" |
@@ -462,25 +463,34 @@ This section tells you **what* to search so you can deepen your understanding. E
 
 ## 11. Screenshots
 
-> 📸 **How to add them (I can't capture them headlessly — please save these into
-> `docs/screenshots/` and run `git add docs/screenshots && git commit && git push`,**
-> or drop them and ask me to embed them next session):
+Live captures of the running app (100 products + SVG logos), taken via a headless
+browser against the containerized stack.
 
 ### 🏠 Home Page
-<!-- SCREENSHOT: browser at http://localhost:3000 → save as docs/screenshots/home.png (hero banner + product grid) -->
+![Home](docs/screenshots/home.png)
+
+### 🔍 Search
+![Search](docs/screenshots/search.png)
+
+### 📦 Product Detail
+![Product](docs/screenshots/product.png)
 
 ### 🛒 Cart Page
-<!-- SCREENSHOT: add a few items, visit http://localhost:3000/cart → save as docs/screenshots/cart.png -->
+![Cart](docs/screenshots/cart.png)
 
-### 🧾 Checkout / Stripe
-<!-- SCREENSHOT: http://localhost:3000/checkout after login → save as docs/screenshots/checkout.png -->
-<!-- SCREENSHOT: the Stripe hosted page with test card 4242... → save as docs/screenshots/stripe.png -->
+### 🧾 Checkout
+![Checkout](docs/screenshots/checkout.png)
 
 ### 📦 Order History
-<!-- SCREENSHOT: after a successful (fake) payment → http://localhost:3000/orders → save as docs/screenshots/orders.png -->
+![Orders](docs/screenshots/orders.png)
 
 ### 🌙 Dark Mode
-<!-- SCREENSHOT: toggle the moon icon on any page → save as docs/screenshots/dark.png -->
+![Dark](docs/screenshots/dark.png)
+
+> **Note:** `stripe.png` (the Stripe-hosted payment page) isn't captured here —
+> it lives on Stripe's external domain, which a local screenshot can't reach.
+> To capture it, follow the checkout flow to the test card page (`4242 4242 4242 4242`)
+> and save it as `docs/screenshots/stripe.png`.
 
 Full capture checklist: [docs/screenshots/README.md](docs/screenshots/README.md)
 

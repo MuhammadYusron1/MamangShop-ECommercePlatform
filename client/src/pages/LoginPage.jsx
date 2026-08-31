@@ -11,7 +11,7 @@
 //  2. Backend validates → returns { token, _id, name, email, isAdmin }.
 //  3. We store the token in localStorage AND dispatch it to Redux.
 //  4. The api.js interceptor attaches this token to every future request.
-//  5. On page reload, PersistGate rehydrates the Redux state from
+//  5. The store's manual subscription (app/store.js) writes the auth to
 //     localStorage, so the user stays logged in across refreshes.
 // ============================================================
 

@@ -61,13 +61,16 @@ Get the currently logged-in user. **Auth: ✅**
 ## 🗂️ Products
 
 ### GET `/api/products`
-Get all products. Optional `?category=Electronics` filter.
+Get products. All query params are optional and combinable:
+- `?category=Electronics` → filter by exact category
+- `?search=headphone` → case-insensitive substring match on `name` & `description`
+- e.g. `?search=pen&category=Books%20%26%20Stationery`
 
 **Response 200:**
 ```json
 {
   "success": true,
-  "count": 8,
+  "count": 100,
   "products": [
     {
       "_id": "65f...",
@@ -75,7 +78,7 @@ Get all products. Optional `?category=Electronics` filter.
       "description": "...",
       "price": 199.99,
       "category": "Electronics",
-      "imageUrl": "https://...",
+      "imageUrl": "/images/logo-0.svg",
       "stock": 25,
       "createdAt": "...",
       "updatedAt": "..."
@@ -83,6 +86,8 @@ Get all products. Optional `?category=Electronics` filter.
   ]
 }
 ```
+> **Note:** `imageUrl` points at a **locally-served SVG logo** (`/images/logo-<n>.svg`),
+> not an external CDN, so images always load offline.
 
 ### GET `/api/products/:id`
 Get a single product by its Mongo ObjectId. **404** if not found.

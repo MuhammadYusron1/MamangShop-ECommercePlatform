@@ -5,10 +5,15 @@
 //  1. Find the <div id="root"> in index.html.
 //  2. Wrap the app in <Provider store={store}> so every component
 //     can access Redux state (the cart "locker").
-//  3. Wrap in <PersistGate> so the persisted cart/auth state is
-//     loaded from localStorage BEFORE the UI renders.
-//  4. Wrap in <BrowserRouter> to enable client-side routing.
-//  5. Render <App /> inside all of those providers.
+//  3. Wrap in <BrowserRouter> to enable client-side routing.
+//  4. Render <App /> inside all of those providers.
+//
+//  NOTE ON PERSISTENCE:
+//  We used to wrap the app in <PersistGate> from `redux-persist`, but
+//  that library is incompatible with Redux 5 and crashed at startup.
+//  The store (app/store.js) now rehydrates from localStorage SYNCHRONOUSLY
+//  at import time, so the restored cart/auth is already present the
+//  moment this renders — no gate component needed.
 //
 //  LEARNING NOTE — Providers:
 //  These are React Context providers. A provider "provides" a value
@@ -19,10 +24,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
 import { BrowserRouter } from 'react-router-dom';
 
-import { store, persistor } from './app/store';
+import { store } from './app/store';
 import App from './App';
 
 // Import the Tailwind styles so all our utility classes work.
@@ -34,13 +38,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     {/* Make the Redux store available to the whole app */}
     <Provider store={store}>
-      {/* Wait for localStorage state to rehydrate before painting */}
-      <PersistGate loading={null} persistor={persistor}>
-        {/* Enable client-side routing */}
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </PersistGate>
+      {/* Enable client-side routing */}
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 );

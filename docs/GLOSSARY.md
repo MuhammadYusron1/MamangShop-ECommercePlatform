@@ -42,7 +42,7 @@ A quick alphabetical reference for the terms you'll meet while reading the code.
 - **JWT (JSON Web Token):** A signed, stateless token containing user info. The server signs it; it's verified on each request.
 
 ### L
-- **localStorage:** Browser storage that persists across page reloads/restarts. Used by redux-persist for cart + token.
+- **localStorage:** Browser storage that persists across page reloads/restarts. Used by the store's manual save/load (and for the JWT token / theme) to keep the cart + login.
 - **Layer caching (Docker):** Docker caching build steps so unchanged steps aren't re-run.
 
 ### M
@@ -61,13 +61,13 @@ A quick alphabetical reference for the terms you'll meet while reading the code.
 
 ### P
 - **payload (Redux):** The data carried by an action.
-- **PersistGate:** React component that delays rendering until persisted state rehydrates.
+- **Preload state (Redux):** Initial state given to the store, here read from `localStorage` so the cart + login survive a refresh.
 - **Pre-save hook (Mongoose):** A function that runs before a document is saved (used to hash passwords).
 - **proxy_pass (nginx):** Directive that forwards requests to another server.
 
 ### R
 - **Reducer (Redux):** A pure function `(state, action) => newState`.
-- **redux-persist:** Library that saves Redux state to localStorage.
+- **Rehydration:** Restoring saved state (from `localStorage`) into the store when the app boots.
 - **REST API:** An API style exposing resources at URLs, manipulated via HTTP verbs.
 
 ### S

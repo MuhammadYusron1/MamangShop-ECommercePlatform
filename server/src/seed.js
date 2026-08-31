@@ -17,74 +17,14 @@ import connectDB from './config/db.js';
 import Product from './models/Product.js';
 import User from './models/User.js';
 
+import generatedProducts from './generatedProducts.js';
+
 import 'dotenv/config'; // ensure env vars load
 
-const products = [
-  {
-    name: 'Wireless Noise-Cancelling Headphones',
-    description: 'Premium over-ear headphones with active noise cancellation, 30-hour battery, and plush memory-foam ear cushions.',
-    price: 199.99,
-    category: 'Electronics',
-    imageUrl: 'https://picsum.photos/seed/headphones/600/600',
-    stock: 25,
-  },
-  {
-    name: 'Mechanical Keyboard - 75%',
-    description: 'Hot-swappable mechanical keyboard with RGB backlighting, gasket mount, and PBT keycaps.',
-    price: 129.5,
-    category: 'Electronics',
-    imageUrl: 'https://picsum.photos/seed/keyboard/600/600',
-    stock: 40,
-  },
-  {
-    name: 'Ergonomic Office Chair',
-    description: 'Breathable mesh office chair with lumbar support, adjustable armrests, and a 5-year warranty.',
-    price: 279.0,
-    category: 'Furniture',
-    imageUrl: 'https://picsum.photos/seed/chair/600/600',
-    stock: 12,
-  },
-  {
-    name: 'Standing Desk - 55"',
-    description: 'Electric height-adjustable standing desk with dual motors and a spacious bamboo top.',
-    price: 349.99,
-    category: 'Furniture',
-    imageUrl: 'https://picsum.photos/seed/desk/600/600',
-    stock: 8,
-  },
-  {
-    name: 'Smart Watch Series X',
-    description: 'Fitness-focused smartwatch with heart-rate monitoring, GPS, and 7-day battery life.',
-    price: 159.99,
-    category: 'Wearables',
-    imageUrl: 'https://picsum.photos/seed/watch/600/600',
-    stock: 30,
-  },
-  {
-    name: 'Organic Green Tea (50 bags)',
-    description: 'Single-origin organic green tea, freshly packaged. Rich in antioxidants and smooth flavor.',
-    price: 14.99,
-    category: 'Groceries',
-    imageUrl: 'https://picsum.photos/seed/tea/600/600',
-    stock: 100,
-  },
-  {
-    name: 'Leather Laptop Backpack',
-    description: 'Water-resistant leather backpack with padded 15" laptop sleeve and USB charging port.',
-    price: 89.99,
-    category: 'Accessories',
-    imageUrl: 'https://picsum.photos/seed/backpack/600/600',
-    stock: 55,
-  },
-  {
-    name: 'Stainless Steel Water Bottle',
-    description: 'Double-wall insulated bottle keeps drinks cold 24h / hot 12h. BPA-free, 750ml.',
-    price: 24.5,
-    category: 'Accessories',
-    imageUrl: 'https://picsum.photos/seed/bottle/600/600',
-    stock: 200,
-  },
-];
+// The 100 sample products. These are AUTO-GENERATED (see
+// generateSeed.js) so each one also has a matching SVG logo served at
+// /images/logo-<n>.svg. Importing them keeps the seed DRY.
+const products = generatedProducts;
 
 const run = async () => {
   try {
@@ -98,7 +38,6 @@ const run = async () => {
     // Insert sample products.
     const insertedProducts = await Product.insertMany(products);
     console.log(`[seed] Inserted ${insertedProducts.length} products`);
-
     // Demo users. Passwords are hashed automatically by the User
     // model's pre('save') hook.
     const admin = await User.create({

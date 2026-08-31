@@ -92,11 +92,12 @@ export const getMyProfile = async () => {
 // Product endpoints
 // ============================================================
 
-// List all products, optionally filtered by category.
-export const getProducts = async (category) => {
-  const { data } = await api.get('/products', {
-    params: category ? { category } : {},
-  });
+// List all products, optionally filtered by category and/or a text search.
+export const getProducts = async ({ category, search } = {}) => {
+  const params = {};
+  if (category) params.category = category;
+  if (search) params.search = search;
+  const { data } = await api.get('/products', { params });
   return data.products;
 };
 

@@ -78,7 +78,7 @@ App
 **Why Redux here?**
 - Many components need the same data (cart badge in Navbar, items in CartPage).
 - Redux provides a single source of truth + predictable updates via actions.
-- `redux-persist` writes the store to localStorage so the cart & login survive refresh.
+- A `store.subscribe()` listener + `preloadedState` writes/reads the store to `localStorage` so the cart & login survive refresh (see `store.js`).
 
 ### Data access (services/api.js)
 A single axios instance centralizes:

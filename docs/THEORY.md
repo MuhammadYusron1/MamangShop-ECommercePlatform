@@ -52,7 +52,7 @@ that keeps cart items when you move from homepage to checkout.
 **Search on Gemini:**
 - "Redux Toolkit createSlice reducers actions"
 - "redux immutable updates Immer"
-- "redux-persist localStorage rehydration"
+- "Redux localStorage persistence preloadedState store.subscribe rehydration"
 - "Redux selectors useSelector"
 
 ---

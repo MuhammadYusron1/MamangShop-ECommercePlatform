@@ -51,3 +51,7 @@ coverage/
 # ---------- Misc ----------
 .cache/
 .tmp/
+
+# ---------- Agent tooling (local devenv, not part of the app) ----------
+.agents/
+skills-lock.json

@@ -93,7 +93,7 @@ behind the system. It's the "why" behind the architecture.
 ```
 1. User clicks "Add to Cart" on a ProductCard
    → dispatch(addItem) → cartSlice reducer updates Redux store
-   → redux-persist writes cart to localStorage
+   → store.subscribe() listener writes cart to localStorage
    → Navbar badge + CartPage update instantly (SPA, no reload)
 
 2. User goes to /cart → sees items + order summary (client-computed estimates)
