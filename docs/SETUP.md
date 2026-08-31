@@ -153,6 +153,7 @@ Make sure `server/.env` has `MONGO_URI` pointing at your Mongo container:
 | `Connection refused` to mongo | Make sure `mongo` is up: `podman compose ps`. |
 | www.dev checkout fails | Stripe key missing/invalid. Check root `.env` / `server/.env`. |
 | `502 Bad Gateway` after a partial restart | nginx cached the old `server` container IP. Run `podman compose restart client` (or recreated all together with `podman compose up -d`). |
+| **Blank page in browser** (assets 404) | The `/assets/` location in nginx must have `root` + `try_files` (see `client/nginx.conf`). If assets return 404, React never loads. Fix + rebuild: `podman compose up --build -d client`. |
 | Port 3000 already in use | Change the `client` port in `compose.yaml` (e.g. `"3001:80"`). |
 | Port 27017 conflict | If you run a local mongo, `podman compose down` or change the mapping. |
 | No products showing | Forgot to seed — run the seed command. |

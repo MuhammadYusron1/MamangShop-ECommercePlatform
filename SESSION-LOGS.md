@@ -62,12 +62,23 @@ podman compose exec server node src/seed.js   # first time or after wipe
 ```
 
 ### Pending / next steps (for a future session)
-- ⬜ Capture and embed **screenshots** in README (see `README.md` §11) using the user's Chromium
+- ⬜ Capture and embed **screenshots** in README (see `docs/screenshots/README.md`) — user captures in browser
+- ⬜ Re-verify the app in Firefox (blank page fix applied — see below)
 - ⬜ Optional: admin dashboard (manage products/orders in UI)
 - ⬜ Optional: add tests
 - ⬜ Optional: deploy to cloud (currently local-only)
 - ⬜ Optional: WebSockets for "true" live multi-user stock
 - ⬜ Optional: JWT to httpOnly cookies for stronger security
+
+### Fix applied — blank page (assets 404)
+- **Symptom:** opening the storefront in a real browser showed a blank page; headless
+  screenshot also blank.
+- **Root cause:** `client/nginx.conf` `location /assets/` block overrode the default
+  `location /` for JS/CSS URLs but had NO `root`/`try_files`, so nginx returned **404**
+  for every bundle. React never loaded → empty `#root`.
+- **Fix:** added `root /usr/share/nginx/html; try_files $uri $uri/ =404;` to the
+  `/assets/` block. Verified JS/CSS now return 200 and the bundle contains the app.
+- **Rebuild to apply:** `podman compose up --build -d client`
 
 ### Notes / decisions made
 - **JS (not TS)** — for learning simplicity
