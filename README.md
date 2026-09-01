@@ -38,6 +38,10 @@
 > tells you something new. The `docs/` folder expands on the theory so you
 > can search each topic on Gemini/Google for deeper study.
 
+> **🛠️ Want to build this YOURSELF from scratch?** Follow the step-by-step
+> tutorial in **[docs/TUTORIAL.md](docs/TUTORIAL.md)** — it takes you from an empty
+> folder to the finished, containerized app, and ends with pushing it to GitHub.
+
 ---
 
 ## ⚡ Quick Start (podman compose)
@@ -213,6 +217,7 @@ MamangShop-ECommercePlatform/
 │
 ├── compose.yaml                   # podman compose (3 services)
 ├── docs/                          # 📚 all learning documentation
+│   ├── TUTORIAL.md                # ⭐ build this project from scratch, step by step
 │   ├── ARCHITECTURE.md
 │   ├── SYSTEM-DESIGN.md
 │   ├── API.md
